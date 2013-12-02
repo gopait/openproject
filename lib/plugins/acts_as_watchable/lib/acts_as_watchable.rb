@@ -62,6 +62,9 @@ module Redmine
                 :conditions => ["#{Watcher.table_name}.user_id = ?", user_id] }
             }
             attr_protected :watcher_ids, :watcher_user_ids if accessible_attributes.nil?
+
+            class_attribute :acts_as_watchable_options
+            self.acts_as_watchable_options = options
           end
           send :include, Redmine::Acts::Watchable::InstanceMethods
           alias_method_chain :watcher_user_ids=, :uniq_ids
