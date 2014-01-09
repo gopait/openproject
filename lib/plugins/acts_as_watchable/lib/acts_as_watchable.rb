@@ -91,11 +91,10 @@ module Redmine
         def possible_watcher_users
           permission = self.class.acts_as_watchable_options[:permission]
 
-          # TODO: somehow get this standard #distinct method to work
-
-          selected_fields = (['DISTINCT(users.id)'] + User::USER_FORMATS_STRUCTURE.values.flatten.uniq.map(&:to_s)).join(', ')
-
-          User.allowed(permission, self.project, admin_pass: false).not_builtin.order_by_name.select(selected_fields)
+          User.allowed(permission, self.project, admin_pass: false)
+              .not_builtin
+              .order_by_name
+              .select(selected_fields)
         end
 
         # Returns an array of users that are proposed as watchers
