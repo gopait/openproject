@@ -94,7 +94,7 @@ module Redmine
           User.allowed(permission, self.project, admin_pass: false)
               .not_builtin
               .order_by_name
-              .select(selected_fields)
+              .select_only_name_attributes
         end
 
         # Returns an array of users that are proposed as watchers
