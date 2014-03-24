@@ -43,8 +43,12 @@ class Board < ActiveRecord::Base
   validates_length_of :name, :maximum => 30
   validates_length_of :description, :maximum => 255
 
+  include OpenProject::NeedsAuthorization::NeedsAuthorization
+  needs_authorization view: :view_messages
+
   def visible?(user=User.current)
-    !user.nil? && user.allowed_to?(:view_messages, project)
+    # TODO: remove once usages of lazy User.current are removed
+    super(user)
   end
 
   def to_s
