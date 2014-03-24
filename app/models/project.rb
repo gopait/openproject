@@ -117,7 +117,10 @@ class Project < ActiveRecord::Base
   scope :has_module, lambda { |mod| { :conditions => ["#{Project.table_name}.id IN (SELECT em.project_id FROM #{EnabledModule.table_name} em WHERE em.name=?)", mod.to_s] } }
   scope :active, lambda { |*args| where(:status => STATUS_ACTIVE) }
   scope :public, lambda { |*args| where(:is_public => true) }
-  scope :visible, -> { where(Project.visible_by(User.current)) }
+
+  include OpenProject::NeedsAuthorization::NeedsAuthorization
+  needs_authorization view: :view_project,
+                      project_association: self
 
   # timelines stuff
 
@@ -204,7 +207,8 @@ class Project < ActiveRecord::Base
   end
 
   def visible?(user = User.current)
-    self.active? and (self.is_public? or user.admin? or user.member_of?(self))
+    # TODO: remove once the lazy User.current parameter is removed
+    super(user)
   end
 
   def allows_association?
