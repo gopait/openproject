@@ -35,8 +35,8 @@ attributes :id,
 
 node(:embedded) do |project|
   {
-    possible_assignees:    project.possible_assignees,
-    possible_responsibles: project.possible_responsibles,
+    possible_assignees:    project.possible_assignees.select_only_name_attributes,
+    possible_responsibles: project.possible_responsibles.select_only_name_attributes,
     types:                 project.types
   }
 end
