@@ -60,13 +60,13 @@ describe 'API v3 Queries' do
 
       # START behaviour for public query
       describe 'public query' do
-        let(:query) { FactoryGirl.create(:public_query, project: project) }
-        let(:name_json) { query.name.to_json }
         let(:starred_json) { "true".to_json }
 
         # START behaviour for starring an unstarred query
         context 'starring an unstarred query' do
-          it_should_behave_like "API 200 OK response"
+          it_should_behave_like "API 200 OK response" do
+            let(:resource_object) { FactoryGirl.create(:public_query, project: project) }
+          end
           # it 'should respond with 200' do
           #   last_response.status.should eq(200)
           # end

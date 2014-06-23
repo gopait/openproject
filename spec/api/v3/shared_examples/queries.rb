@@ -1,15 +1,13 @@
 require "set"
 
 RSpec.shared_examples 'API 200 OK response' do
-  # let(:id_in_json) { resource.id.to_json }
-
   it 'should respond with 200' do
     last_response.status.should eq(200)
   end
 
-  # it 'should respond with the correct object' do
-  #   last_response.body.should be_json_eql(id_in_json).at_path('id')
-  # end
+  it 'should respond with the correct resource object' do
+    last_response.body.should be_json_eql(resource_object.id.to_json).at_path('id')
+  end
 end
 
 RSpec.shared_examples '401 Unauthorized response' do
