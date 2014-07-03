@@ -60,10 +60,10 @@ module API
       when 'API::Errors::Validation', 'API::Errors::UnwritableProperty', 'API::Errors::Unauthorized', 'API::Errors::Unauthenticated'
         Rack::Response.new(e.to_json, e.code, e.headers).finish
       when 'ActiveRecord::RecordNotFound'
-        not_found = API::Errors::NotFound.new(e.message)
+        not_found = ::API::Errors::NotFound.new(e.message)
         Rack::Response.new(not_found.to_json, not_found.code, not_found.headers).finish
       when 'ActiveRecord::RecordInvalid'
-        error = API::Errors::Validation.new(e.record)
+        error = ::API::Errors::Validation.new(e.record)
         Rack::Response.new(error.to_json, error.code, error.headers).finish
       end
     end
