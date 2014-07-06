@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2014 the OpenProject Foundation (OPF)
@@ -27,20 +26,33 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-# Root class of the API v3
-# This is the place for all API v3 wide configuration, helper methods, exceptions
-# rescuing, mounting of differnet API versions etc.
+require 'spec_helper'
 
-module API
-  module V3
-    class Root < Grape::API
-      version 'v3', using: :path
+describe ::API::V3::Users::UserRepresenter do
+  let(:user)             { FactoryGirl.create(:user) }
+  let(:model)          { ::API::V3::Users::UserModel.new(user) }
+  let(:representer) { described_class.new(model) }
 
-      mount ::API::V3::Attachments::AttachmentsAPI
-      mount ::API::V3::Activities::ActivitiesAPI
-      mount ::API::V3::Queries::QueriesAPI
-      mount ::API::V3::Users::UsersAPI
-      mount ::API::V3::WorkPackages::WorkPackagesAPI
+  context 'generation' do
+    subject(:generated) { representer.to_json }
+
+    it { should include_json('User'.to_json).at_path('_type') }
+
+    describe 'user' do
+      it { should have_json_path('id')   }
+      it { should have_json_path('login') }
+      it { should have_json_path('firstName') }
+      it { should have_json_path('lastName') }
+      it { should have_json_path('mail') }
+      it { should have_json_path('avatar') }
+      it { should have_json_path('createdAt') }
+      it { should have_json_path('updatedAt') }
+    end
+
+    describe '_links' do
+      it 'should link to self' do
+        expect(subject).to have_json_path('_links/self/href')
+      end
     end
   end
 end
