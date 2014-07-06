@@ -11,8 +11,8 @@ module API
           namespace ':id' do
 
             before do
-              @activity = Journal.find(params[:id])
-              model = ::API::V3::Activities::ActivityModel.new(journal: @activity)
+              @journal = Journal.find(params[:id])
+              model = ::API::V3::Activities::ActivityModel.new(@journal)
               @representer =  ::API::V3::Activities::ActivityRepresenter.new(model)
             end
 
