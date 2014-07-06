@@ -37,6 +37,7 @@ module API
         include Roar::Representer::JSON::HAL
         include Roar::Representer::Feature::Hypermedia
         include OpenProject::StaticRouting::UrlHelpers
+        include ::Rails.application.routes.url_helpers
 
         self.as_strategy = ::API::Utilities::CamelCasingStrategy.new
 
@@ -97,6 +98,7 @@ module API
 
         collection :activities, embedded: true, class: ::API::V3::Activities::ActivityModel, decorator: ::API::V3::Activities::ActivityRepresenter, render_nil: true
         collection :watchers, embedded: true, class: ::API::V3::Users::UserModel, decorator: ::API::V3::Users::UserRepresenter, render_nil: true
+        collection :relations,  embedded: true, class: RelationModel, decorator: RelationRepresenter, render_nil: true
 
         def _type
           'WorkPackage'
