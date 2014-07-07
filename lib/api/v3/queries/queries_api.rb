@@ -24,6 +24,10 @@ module API
               end
             end
 
+            get do
+              @representer.to_json
+            end
+
             patch :star do
               authorize(:queries, :star, context: @query.project, allow: allowed_to_manage_stars?)
               normalized_query_name = @query.name.parameterize.underscore

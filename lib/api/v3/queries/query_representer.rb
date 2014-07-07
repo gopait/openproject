@@ -46,14 +46,17 @@ module API
           { href: "#{root_url}api/v3/queries/#{represented.query.id}", title: "#{represented.name}" }
         end
 
+        link :user do
+          {
+              href: "#{root_url}/api/v3/users/#{represented.query.user.id}",
+              title: "#{represented.query.user.name} - #{represented.query.user.login}"
+          } unless represented.query.user.nil?
+        end
+
         property :id, getter: -> (*) { query.id }, render_nil: true
         property :name, render_nil: true
         property :project_id, getter: -> (*) { query.project.id }
         property :project_name, getter: -> (*) { query.project.try(:name) }
-        property :user_id, getter: -> (*) { query.user.try(:id) }, render_nil: true
-        property :user_name, getter: -> (*) { query.user.try(:name) }, render_nil: true
-        property :user_login, getter: -> (*) { query.user.try(:login) }, render_nil: true
-        property :user_mail, getter: -> (*) { query.user.try(:mail) }, render_nil: true
         property :filters, render_nil: true
         property :is_public, getter: -> (*) { query.is_public.to_s }, render_nil: true
         property :column_names, render_nil: true
@@ -67,8 +70,7 @@ module API
         end
 
         def is_starred
-            return true if !represented.query.query_menu_item.nil?
-            false
+            !represented.query.query_menu_item.nil?
         end
       end
     end
