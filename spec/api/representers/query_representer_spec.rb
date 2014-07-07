@@ -30,7 +30,7 @@ require 'spec_helper'
 
 describe ::API::V3::Queries::QueryRepresenter do
   let(:query) { FactoryGirl.build(:query) }
-  let(:model) { ::API::V3::Queries::QueryModel.new(query: query) }
+  let(:model) { ::API::V3::Queries::QueryModel.new(query) }
   let(:representer) { described_class.new(model) }
 
   context 'generation' do
