@@ -139,7 +139,7 @@ gem 'cocaine'
 gem 'i18n', '>=0.6.8'
 # see https://groups.google.com/forum/#!topic/ruby-security-ann/pLrh6DUw998
 
-gem 'nokogiri', '>=1.5.11'
+gem 'nokogiri', '>=1.6.1'
 # see https://groups.google.com/forum/#!topic/ruby-security-ann/DeJpjTAg1FA
 
 group :test do
